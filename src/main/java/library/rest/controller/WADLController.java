@@ -38,6 +38,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  *
  * Code is taken from and slightly adapted from the following source:
  * https://javattitude.com/2014/05/26/wadl-generator-for-spring-rest/
+ *
+ * adaption is basically changing the controller endpoint and adding a if to make sure that the hateaos interface
+ * is not documented. Hateoas is 'self-documenting', therefore I don't want it documented here.
+ *
+ * Unsure what (c) is put on this. Please check this out if you reuse the code (c)
  */
 
 @Controller
@@ -67,14 +72,21 @@ public class WADLController {
             Object bean = webApplicationContext.getBean(object.toString());
 
             boolean isRestContoller = bean.getClass().isAnnotationPresent(RestController.class);
-            if(!isRestContoller) {
+
+            // Added an if to prevent publication of Hateoas*Controller as Hateoas*Controller is 'self-documenting'
+            String name = bean.getClass().getSimpleName();
+            if(!isRestContoller || name.equalsIgnoreCase("HateoasAppController")
+                    || name.equalsIgnoreCase("HateoasAuthorController")
+                    || name.equalsIgnoreCase("HateoasBookController")) {
                 continue;
             }
+
             RequestMappingInfo mappingInfo = entry.getKey();
 
             Set<String> pattern =  mappingInfo.getPatternsCondition().getPatterns();
             Set<RequestMethod> httpMethods =  mappingInfo.getMethodsCondition().getMethods();
             ProducesRequestCondition producesRequestCondition = mappingInfo.getProducesCondition();
+
             Set<MediaType> mediaTypes = producesRequestCondition.getProducibleMediaTypes();
             Resource wadlResource = null;
             for (RequestMethod httpMethod : httpMethods) {
