@@ -1,0 +1,443 @@
+<?xml version="1.0"?>
+<wsdl:definitions name="Library"
+                  targetNamespace="http://abi.hioa.no/services/library"
+                  xmlns:tns="http://abi.hioa.no/services/library"
+                  xmlns:types="http://abi.hioa.no/types/library"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://abi.hioa.no/types/library"
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+                    attributeFormDefault="unqualified" version="1.0">
+
+            <!-- book definitions -->
+            <!-- type definitions, corresponding to generic classes in model -->
+            <xsd:complexType name="book">
+                <xsd:sequence>
+                    <xsd:element name="pkId" type="xsd:long"/>
+                    <xsd:element name="title" type="xsd:string"/>
+                    <xsd:element name="iSBN" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="bookList">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="book" type="types:book"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- type definitions, corresponding to SOAP messages -->
+            <xsd:element name="BookCreateRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="book" type="types:book"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookCreateResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="book" type="types:book"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookUpdateRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="book" type="types:book"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookUpdateResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="book" type="types:book"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookDeleteRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="pkId" type="xsd:long"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookDeleteResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="response" type="xsd:string"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookFindOneRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="pkId" type="xsd:long"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookFindOneResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="book" type="types:book"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="BookFindAllRequest">
+            </xsd:element>
+
+            <xsd:element name="BookFindAllResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="bookList" type="types:bookList"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- author definitions -->
+            <!-- type definitions, corresponding to generic classes in model -->
+            <xsd:complexType name="author">
+                <xsd:sequence>
+                    <xsd:element name="pkId" type="xsd:long"/>
+                    <xsd:element name="authorFirstName" type="xsd:string"/>
+                    <xsd:element name="authorLastName" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="authorList">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="author" type="types:author"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- type definitions, corresponding to SOAP messages -->
+            <xsd:element name="AuthorCreateRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="author" type="types:author"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorCreateResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="author" type="types:author"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorUpdateRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="author" type="types:author"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorUpdateResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="author" type="types:author"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorDeleteRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="pkId" type="xsd:long"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorDeleteResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="response" type="xsd:string"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorFindOneRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="pkId" type="xsd:long"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorFindOneResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="author" type="types:author"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="AuthorFindAllRequest">
+            </xsd:element>
+
+            <xsd:element name="AuthorFindAllResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="authorList" type="types:authorList"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+
+    <!-- messages relating to book -->
+    <wsdl:message name="CreateBookInput">
+        <wsdl:part name="incomingBook" element="types:BookCreateRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="CreateBookOutput">
+        <wsdl:part name="outgoingBook" element="types:BookCreateResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="UpdateBookInput">
+        <wsdl:part name="incomingBook" element="types:BookUpdateRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="UpdateBookOutput">
+        <wsdl:part name="outgoingBook" element="types:BookUpdateResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="DeleteBookInput">
+        <wsdl:part name="incomingBook" element="types:BookDeleteRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="DeleteBookOutput">
+        <wsdl:part name="outgoingBook" element="types:BookDeleteResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindOneBookInput">
+        <wsdl:part name="incomingBook" element="types:BookFindOneRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindOneBookOutput">
+        <wsdl:part name="outgoingBook" element="types:BookFindOneResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindAllBookInput">
+        <wsdl:part name="incomingBook" element="types:BookFindAllRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindAllBookOutput">
+        <wsdl:part name="outgoingBook" element="types:BookFindAllResponse"/>
+    </wsdl:message>
+
+    <!-- messages relating to author -->
+    <wsdl:message name="CreateAuthorInput">
+        <wsdl:part name="incomingAuthor" element="types:AuthorCreateRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="CreateAuthorOutput">
+        <wsdl:part name="outgoingAuthor" element="types:AuthorCreateResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="UpdateAuthorInput">
+        <wsdl:part name="incomingAuthor" element="types:AuthorUpdateRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="UpdateAuthorOutput">
+        <wsdl:part name="outgoingAuthor" element="types:AuthorUpdateResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="DeleteAuthorInput">
+        <wsdl:part name="authorId" element="types:AuthorDeleteRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="DeleteAuthorOutput">
+        <wsdl:part name="response" element="types:AuthorDeleteResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindOneAuthorInput">
+        <wsdl:part name="authorId" element="types:AuthorFindOneRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindOneAuthorOutput">
+        <wsdl:part name="authorId" element="types:AuthorFindOneResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindAllAuthorInput">
+        <wsdl:part name="blank" element="types:AuthorFindAllRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="FindAllAuthorOutput">
+        <wsdl:part name="authorList" element="types:AuthorFindAllResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="HiOALibrary_PortType">
+        <!-- port operations for book -->
+        <wsdl:operation name="createBook">
+            <wsdl:input message="tns:CreateBookInput"/>
+            <wsdl:output message="tns:CreateBookOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="updateBook">
+            <wsdl:input message="tns:UpdateBookInput"/>
+            <wsdl:output message="tns:UpdateBookOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+            <wsdl:input message="tns:DeleteBookInput"/>
+            <wsdl:output message="tns:DeleteBookOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="findOneBook">
+            <wsdl:input message="tns:FindOneBookInput"/>
+            <wsdl:output message="tns:FindOneBookOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="findAllBook">
+            <wsdl:input message="tns:FindAllBookInput"/>
+            <wsdl:output message="tns:FindAllBookOutput"/>
+        </wsdl:operation>
+
+        <!-- port operations for author -->
+        <wsdl:operation name="createAuthor">
+            <wsdl:input message="tns:CreateAuthorInput"/>
+            <wsdl:output message="tns:CreateAuthorOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="updateAuthor">
+            <wsdl:input message="tns:UpdateAuthorInput"/>
+            <wsdl:output message="tns:UpdateAuthorOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAuthor">
+            <wsdl:input message="tns:DeleteAuthorInput"/>
+            <wsdl:output message="tns:DeleteAuthorOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="findOneAuthor">
+            <wsdl:input message="tns:FindOneAuthorInput"/>
+            <wsdl:output message="tns:FindOneAuthorOutput"/>
+        </wsdl:operation>
+        <wsdl:operation name="findAllAuthor">
+            <wsdl:input message="tns:FindAllAuthorInput"/>
+            <wsdl:output message="tns:FindAllAuthorOutput"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="HiOALibrary_SoapBinding" type="tns:HiOALibrary_PortType">
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <!-- operations on book -->
+        <wsdl:operation name="createBook">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/createBook"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="updateBook">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/updateBook"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/deleteBook"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="findOneBook">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/getBook"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="findAllBook">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/getBooks"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <!-- operations on author -->
+        <wsdl:operation name="createAuthor">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/createAuthor"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="updateAuthor">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/updateAuthor"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAuthor">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/deleteAuthor"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="findOneAuthor">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/getAuthor"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="findAllAuthor">
+            <soap:operation
+                    soapAction="http://abi.hioa.no/services/library/getAuthors"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="HiOALibrary_Service">
+        <wsdl:documentation>Library service</wsdl:documentation>
+        <wsdl:port name="HiOALibrary_Port" binding="tns:HiOALibrary_SoapBinding">
+            <soap:address location="http://localhost:8080/library/soap/service"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
