@@ -45,3 +45,9 @@ The starting point for the application is
 
 Future work includes adding JWT support to show security and to get the authors/books entities embedded within 
 each other for the REST approaches. 
+
+
+If you run this not on localhost, then you have to change the following files:
+
+  * library.wsdl change <soap:address location="http://localhost:9984/library/soap/service"/>
+  * application.properties change hateoas.publicAddress=http://localhost:9984
