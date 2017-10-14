@@ -1,10 +1,19 @@
 
 package library.hateoas;
-import library.common.model.Author;
-import library.common.service.IAuthorService;
+
+
+import library.hateoas.application.ApplicationDetails;
+import library.hateoas.application.ConformityLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+
 
 /**
  * Created by tsodring on 9/25/17.
@@ -13,36 +22,37 @@ import java.util.Set;
 @RequestMapping(value = "/library/hateoas/")
 public class HateoasAppController {
 
-    private IAuthorService authorService;
+    private static final Logger logger = LoggerFactory.getLogger(HateoasAppController.class);
 
-    HateoasAppController(IAuthorService authorService) {
-        this.authorService = authorService;
+
+    @Value("${hateoas.publicAddress}")
+    private String publicUrlPath;
+
+
+    /**
+     * identify the interfaces the core supports
+     *
+     * @return the application details along with the correct response code (200 OK, or 500 Internal Error)
+     */
+    // API - All GET Requests (CRUD - READ)
+    @RequestMapping(method = {RequestMethod.GET})
+    @ResponseBody
+    public ResponseEntity<ApplicationDetails> identify(HttpServletRequest request) {
+
+        ArrayList<ConformityLevel> conformityLevels = new ArrayList<>();
+        ConformityLevel conformityLevel = new ConformityLevel();
+        conformityLevel.setHref(publicUrlPath + "/library/hateoas/authors");
+        conformityLevel.setRel("http://abi.hioa.no/library/authors");
+        conformityLevels.add(conformityLevel);
+
+        conformityLevel = new ConformityLevel();
+        conformityLevel.setHref(publicUrlPath + "/library/hateoas/books");
+        conformityLevel.setRel("http://abi.hioa.no/library/books");
+        conformityLevels.add(conformityLevel);
+
+        ApplicationDetails applicationDetails = new ApplicationDetails(conformityLevels);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(applicationDetails);
     }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public Set<Author> getAuthors() {
-        return authorService.findAll();
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Author getAuthor(@PathVariable("id") Long id) {
-        return authorService.findOne(id);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public Author saveAuthor(@RequestBody Author author) {
-        return authorService.save(author);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public Author updateAuthor(@RequestBody Author author) {
-        return authorService.save(author);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public boolean deleteAuthor(@PathVariable Long id) {
-        authorService.delete(id);
-        return true;
-    }
-
 }
