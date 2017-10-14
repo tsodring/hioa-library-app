@@ -1,10 +1,17 @@
 package library.common.service;
 
+import library.common.model.Author;
 import library.common.model.Book;
 import library.common.persistence.IBookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Set;
 
@@ -13,12 +20,14 @@ import java.util.Set;
  */
 @Service
 @Transactional
-public class BookService implements IBookService{
+public class BookService implements IBookService {
 
     private IBookRepository bookRepository;
+    private EntityManager entityManager;
 
-    public BookService(IBookRepository bookRepository) {
+    public BookService(IBookRepository bookRepository, EntityManager entityManager) {
         this.bookRepository = bookRepository;
+        this.entityManager = entityManager;
     }
 
     public Set getAll() {
@@ -61,5 +70,14 @@ public class BookService implements IBookService{
     @Override
     public Set<Book> findByTitle(String title) {
         return bookRepository.findByTitle(title);
+    }
+
+    @Override
+    public Set<Author> findByAuthor(Long id) throws Exception {
+        Book book = bookRepository.findOne(id);
+        if (book == null){
+            throw new Exception("No book exists with Id " + id);
+        }
+        return book.getAuthors();
     }
 }

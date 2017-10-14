@@ -1,13 +1,13 @@
 package library.common.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import library.common.model.hateoas.ILibraryEntity;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static library.common.utils.Constants.AUTHOR;
 import static library.common.utils.Constants.BOOK;
@@ -37,7 +37,8 @@ import static library.common.utils.Constants.BOOK;
 @XmlType(name = "", propOrder = {
     "pkId",
     "title",
-    "iSBN"
+    "iSBN",
+    "authors"
 })
 /**
  * Created by tsodring on 9/25/17.
@@ -62,17 +63,18 @@ public class Book implements ILibraryEntity {
     private String iSBN;
 
     public Book() {}
-/*
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+
+    @XmlElementWrapper(name = "authors")
+    @XmlElement(name= "author")
+
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "book_authors",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     private Set<Author> authors = new HashSet<>();
-*/
+
     public Long getPkId() {
     return pkId;
 }
@@ -97,7 +99,16 @@ public class Book implements ILibraryEntity {
         this.title = title;
     }
 
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
     @Override
+    @JsonIgnore
     public String getBaseTypeName() {
         return BOOK;
     }

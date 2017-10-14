@@ -436,7 +436,7 @@
     <wsdl:service name="HiOALibrary_Service">
         <wsdl:documentation>Library service</wsdl:documentation>
         <wsdl:port name="HiOALibrary_Port" binding="tns:HiOALibrary_SoapBinding">
-            <soap:address location="http://localhost:8080/library/soap/service"/>
+            <soap:address location="http://localhost:9984/library/soap/service"/>
         </wsdl:port>
     </wsdl:service>
 

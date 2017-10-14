@@ -46,9 +46,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "author")
 public class Author {
 
-    @XmlElement(required = true)
+    @XmlElement()
     protected BigInteger id;
-    @XmlElement(required = true)
+    @XmlElement(name="", required = true)
     protected String authorFirstName;
     @XmlElement(required = true)
     protected String authorLastName;

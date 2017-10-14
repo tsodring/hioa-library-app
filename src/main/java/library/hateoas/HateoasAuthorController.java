@@ -4,15 +4,13 @@ import library.common.model.Author;
 import library.common.model.hateoas.HateoasAuthor;
 import library.common.model.hateoas.ILibraryEntity;
 import library.common.service.IAuthorService;
-import library.common.utils.hateoas.HateoasHandler;
-import library.common.utils.hateoas.serializer.IHateoasHandler;
+import library.common.utils.hateoas.IHateoasHandler;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -20,7 +18,8 @@ import java.util.Set;
  * Created by tsodring on 9/25/17.
  */
 @RestController
-@RequestMapping(value = "/library/hateoas/authors")
+@RequestMapping(value = "/library/hateoas/authors", produces = {MediaType.APPLICATION_JSON_VALUE,
+        MediaType.APPLICATION_XML_VALUE})
 public class HateoasAuthorController {
 
     private IAuthorService authorService;
@@ -35,8 +34,12 @@ public class HateoasAuthorController {
     public ResponseEntity<HateoasAuthor> getAuthors(
             HttpServletRequest request) {
 
+        ArrayList<ILibraryEntity> arrayList = new ArrayList<>();
+        Set <Author> authors = authorService.findAll();
+        arrayList.addAll(authors);
+
         HateoasAuthor authorHateoas = new
-                HateoasAuthor((ArrayList<ILibraryEntity>) (ArrayList)authorService.findAll());
+                HateoasAuthor(arrayList);
         hateoasHandler.addLinks(authorHateoas, request);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(authorHateoas);

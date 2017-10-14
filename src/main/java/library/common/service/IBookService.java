@@ -1,6 +1,7 @@
 package library.common.service;
 
 
+import library.common.model.Author;
 import library.common.model.Book;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Set;
  * Created by tsodring on 9/25/17.
  */
 public interface IBookService {
-    Set getAll();
+    Set<Book> getAll();
     Book findOne(Long id);
     Set<Book> findAll();
     Book save(Book book);
@@ -18,4 +19,5 @@ public interface IBookService {
     void delete(Long id);
     Set<Book> findByISBN(String isbn);
     Set<Book> findByTitle(String title);
+    Set<Author> findByAuthor(Long id) throws Exception;
 }

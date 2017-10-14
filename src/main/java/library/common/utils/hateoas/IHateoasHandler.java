@@ -1,4 +1,4 @@
-package library.common.utils.hateoas.serializer;
+package library.common.utils.hateoas;
 
 import library.common.model.hateoas.ILibraryEntity;
 import library.common.utils.hateoas.IHateoasObject;

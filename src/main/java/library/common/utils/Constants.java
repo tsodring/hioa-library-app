@@ -5,7 +5,7 @@ package library.common.utils;
  */
 public final class Constants {
 
-    public static final String HATEOAS_API_PATH = "library";
+    public static final String HATEOAS_API_PATH = "/library/hateoas";
     public static final String SLASH = "/";
     public static final String LINKS = "_links";
     public static final String HREF = "href";

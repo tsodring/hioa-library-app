@@ -1,7 +1,6 @@
 package library.common.utils.hateoas;
 
 import library.common.model.hateoas.ILibraryEntity;
-import library.common.utils.hateoas.serializer.IHateoasHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -47,13 +46,12 @@ public class HateoasHandler implements IHateoasHandler {
     public void addSelfLink(ILibraryEntity entity, IHateoasObject hateoasObject) {
         String id = Long.toString(entity.getPkId());
         String baseType = entity.getBaseTypeName();
-        hateoasObject.addLink(entity, new Link(contextPath + servletPath, getRelSelfLink(), false));
 
-        /*hateoasObject.addLink(entity, new Link(contextPath + HATEOAS_API_PATH + SLASH + baseType +
-                SLASH + id + SLASH, getRelSelfLink(), false));*/
+        hateoasObject.addLink(entity, new Link(contextPath + HATEOAS_API_PATH + SLASH + baseType + "s" +
+                SLASH + id + SLASH, getRelSelfLink(), false));
     }
 
-    public void addEntityLinks(ILibraryEntity entity, IHateoasObject hateoasNoarkObject) {
+    public void addEntityLinks(ILibraryEntity entity, IHateoasObject hateoasObject) {
     }
 
     protected String getRelSelfLink() {

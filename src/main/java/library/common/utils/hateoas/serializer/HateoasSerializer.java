@@ -40,7 +40,7 @@ public class HateoasSerializer extends StdSerializer<IHateoasObject> {
         if (list.size() > 0) {
             if (!hateoasObject.isSingleEntity()) {
                 jgen.writeStartObject();
-
+                jgen.writeFieldName("results");
                 jgen.writeStartArray();
             }
             for (ILibraryEntity entity : list) {

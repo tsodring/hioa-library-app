@@ -1,40 +1,55 @@
 package library.common.model;
 
 import library.common.model.hateoas.ILibraryEntity;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static library.common.utils.Constants.AUTHOR;
 import static library.common.utils.Constants.BOOK;
 
 /**
  * Created by tsodring on 9/25/17.
- *
+ * <p>
  * Note the base class can be used when creating SOAP, REST and Hateoas objects so has a
  * lot going on it.
- *
- * ResourceSupport getId returns a link so the traditional long id is caled pkIk
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {
+        "pkId",
+        "authorFirstName",
+        "authorLastName"
+})
+
 @Entity
 @Table(name = "authors_table")
-@XmlRootElement(name = AUTHOR, namespace="http://abi.hioa.no/types/library")
+@XmlRootElement(name = AUTHOR, namespace = "http://abi.hioa.no/types/library")
 public class Author implements ILibraryEntity {
 
+    @XmlElement()
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "author_id", nullable = false, updatable = false)
     private Long pkId;
 
+    @XmlElement(name = "authorFirstName", required = true)
     @Column(name = "author_first_name")
     private String authorFirstName;
 
+    @XmlElement(name = "authorLastName", required = true)
     @Column(name = "author_last_name")
     private String authorLastName;
-/*
+
+    @XmlTransient
+    @JsonIgnore
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
-*/
+
     public Long getPkId() {
         return pkId;
     }
@@ -64,15 +79,11 @@ public class Author implements ILibraryEntity {
         return AUTHOR;
     }
 
-    /*
-        public Set<Book> getBooks() {
-            return books;
-        }
 
-        public void setBooks(Set<Book> books) {
-            this.books = books;
-        }
-    */
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
