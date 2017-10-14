@@ -2,6 +2,8 @@
 package library.rest.controller;
 import library.common.model.Author;
 import library.common.service.IAuthorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -25,23 +27,35 @@ public class RestAuthorController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Author getAuthor(@PathVariable("id") Long id) {
-        return authorService.findOne(id);
+    public ResponseEntity<Author> getAuthor(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(authorService.findOne(id));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Author saveAuthor(@RequestBody Author author) {
-        return authorService.save(author);
+    public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authorService.save(author));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Author updateAuthor(@RequestBody Author author) {
-        return authorService.save(author);
+    public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(authorService.save(author));
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Author> updateBook(
+            @PathVariable("id") Long id,
+            @RequestBody Author author) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(authorService.update(id, author));
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public boolean deleteAuthor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAuthor(@PathVariable Long id) {
         authorService.delete(id);
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Author with id " + Long.toString(id) + " was deleted");
     }
 }

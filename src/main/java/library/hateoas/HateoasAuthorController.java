@@ -64,7 +64,6 @@ public class HateoasAuthorController {
             HttpServletRequest request,
             @RequestBody Author author) {
         Author savedAuthor = authorService.save(author);
-
         HateoasAuthor authorHateoas = new
                 HateoasAuthor(savedAuthor);
         hateoasHandler.addLinks(authorHateoas, request);
@@ -72,13 +71,12 @@ public class HateoasAuthorController {
                 .body(authorHateoas);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<HateoasAuthor> updateAuthor(
             HttpServletRequest request,
-            @RequestBody Author author) {
-
-        Author updatedAuthor = authorService.save(author);
-
+            @PathVariable Long id,
+            @RequestBody Author author) throws Exception {
+        Author updatedAuthor = authorService.update(id, author);
         HateoasAuthor authorHateoas = new
                 HateoasAuthor(updatedAuthor);
         hateoasHandler.addLinks(authorHateoas, request);
@@ -87,9 +85,9 @@ public class HateoasAuthorController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public boolean deleteAuthor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAuthor(@PathVariable Long id) {
         authorService.delete(id);
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Author with id " + Long.toString(id) + " was deleted");
     }
-
 }

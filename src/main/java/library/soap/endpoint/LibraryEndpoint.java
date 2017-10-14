@@ -111,7 +111,7 @@ public class LibraryEndpoint {
         Author incoming = incomingPayload.getAuthor();
         LOGGER.info("Soap endpoint received updateAuthor request [firstname={}, lastname={}]",
                 incoming.getAuthorFirstName(), incoming.getAuthorLastName());
-        Author outgoing = authorService.update(incoming);
+        Author outgoing = authorService.update(incoming.getPkId(), incoming);
         LOGGER.info("Soap endpoint sending author response='{}'", outgoing.toString());
         return outgoing;
     }

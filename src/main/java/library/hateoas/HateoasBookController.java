@@ -81,21 +81,39 @@ public class HateoasBookController {
                 .body(bookHateoas);
     }
 
-
     @RequestMapping(method = RequestMethod.POST)
-    public Book saveBook(@RequestBody Book book) {
-        return bookService.save(book);
+    public ResponseEntity<HateoasBook> saveBook(
+            HttpServletRequest request,
+            @RequestBody Book book) {
+
+        Book createdBook = bookService.save(book);
+        HateoasBook bookHateoas = new
+                HateoasBook(createdBook);
+        bookHateoasHandler.addLinks(bookHateoas, request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(bookHateoas);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Book updateBook(@RequestBody Book book) {
-        return bookService.save(book);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<HateoasBook> updateBook(
+            HttpServletRequest request,
+            @PathVariable("id") Long id,
+            @RequestBody Book book) throws Exception {
+
+        Book updatedBook = bookService.update(id, book);
+
+        HateoasBook bookHateoas = new
+                HateoasBook(updatedBook);
+        bookHateoasHandler.addLinks(bookHateoas, request);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(bookHateoas);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public boolean deleteBook(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         bookService.delete(id);
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Book with id " + Long.toString(id) + " was deleted");
     }
 
 }

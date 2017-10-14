@@ -36,10 +36,10 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Author update(Author author) throws Exception {
-        Author originalAuthor = authorRepository.findOne(author.getPkId());
+    public Author update(Long id, Author author) throws Exception {
+        Author originalAuthor = authorRepository.findOne(id);
         if (originalAuthor == null){
-            throw new Exception("No author exists with Id " + author.getPkId());
+            throw new Exception("No author exists with Id " + id);
         }
         originalAuthor.setAuthorFirstName(author.getAuthorFirstName());
         originalAuthor.setAuthorLastName(author.getAuthorFirstName());

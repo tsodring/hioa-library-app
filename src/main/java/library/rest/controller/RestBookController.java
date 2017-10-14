@@ -2,7 +2,9 @@ package library.rest.controller;
 
 import library.common.model.Book;
 import library.common.service.IBookService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -28,26 +30,31 @@ public class RestBookController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Book getBook(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> getBook(@PathVariable("id") Long id) {
         Book book = bookService.findOne(id);
         if (book != null)
-            return book;
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(book);
         throw new EntityNotFoundException("Cannot find Book with id " + id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Book saveBook(@RequestBody Book book) {
-        return bookService.save(book);
+    public ResponseEntity<Book> saveBook(@RequestBody Book book) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(bookService.save(book));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Book updateBook(@PathVariable("id") Long id, @RequestBody Book book) {
-        return bookService.save(book);
+    public ResponseEntity<Book> updateBook(
+            @PathVariable("id") Long id, @RequestBody Book book) throws  Exception {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(bookService.update(id, book));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public boolean deleteBook(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         bookService.delete(id);
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Book with id " + Long.toString(id) + " was deleted");
     }
 }

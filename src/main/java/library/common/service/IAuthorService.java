@@ -11,7 +11,7 @@ public interface IAuthorService {
     Set findAll();
     Author findOne(Long id);
     Author save(Author author);
-    Author update(Author author) throws Exception;
+    Author update(Long id, Author author) throws Exception;
     void delete(Long id);
     // authorFirstName
     Set<Author> findByAuthorFirstName(String authorFirstName);
