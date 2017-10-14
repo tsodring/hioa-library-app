@@ -1,9 +1,16 @@
 package library.hateoas;
 
+import library.common.model.Author;
 import library.common.model.Book;
+import library.common.model.hateoas.HateoasAuthor;
+import library.common.model.hateoas.HateoasBook;
 import library.common.service.IBookService;
+import library.common.utils.hateoas.serializer.IHateoasHandler;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 /**
@@ -14,9 +21,11 @@ import java.util.Set;
 public class HateoasBookController {
 
     private IBookService bookService;
+    private IHateoasHandler hateoasHandler;
 
-    HateoasBookController(IBookService bookService) {
+    public HateoasBookController(IBookService bookService, IHateoasHandler hateoasHandler) {
         this.bookService = bookService;
+        this.hateoasHandler = hateoasHandler;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -25,9 +34,19 @@ public class HateoasBookController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Book getBook(@PathVariable("id") Long id) {
-        return bookService.findOne(id);
+    public ResponseEntity<HateoasBook> getBook(
+            HttpServletRequest request,
+            @PathVariable("id") Long id) {
+
+        Book book = bookService.findOne(id);
+
+        HateoasBook bookHateoas = new
+                HateoasBook(book);
+        hateoasHandler.addLinks(bookHateoas, request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(bookHateoas);
     }
+
 
     @RequestMapping(method = RequestMethod.POST)
     public Book saveBook(@RequestBody Book book) {

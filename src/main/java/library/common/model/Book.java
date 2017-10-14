@@ -1,11 +1,16 @@
 package library.common.model;
 
+import library.common.model.hateoas.ILibraryEntity;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import static library.common.utils.Constants.AUTHOR;
+import static library.common.utils.Constants.BOOK;
 
 /**
  * <p>Java class for anonymous complex type.
@@ -39,8 +44,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity
 @Table(name = "books")
-@XmlRootElement(name = "book", namespace="http://abi.hioa.no/types/library")
-public class Book {
+@XmlRootElement(name = BOOK, namespace="http://abi.hioa.no/types/library")
+public class Book implements ILibraryEntity {
 
     @XmlElement()
     @Id
@@ -55,6 +60,8 @@ public class Book {
     @XmlElement(name="iSBN", required = true)
     @Column(name = "isbn")
     private String iSBN;
+
+    public Book() {}
 /*
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -90,5 +97,9 @@ public class Book {
         this.title = title;
     }
 
-    public Book() {}
+    @Override
+    public String getBaseTypeName() {
+        return BOOK;
+    }
+
 }

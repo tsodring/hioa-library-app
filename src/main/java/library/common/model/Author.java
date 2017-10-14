@@ -1,8 +1,12 @@
 package library.common.model;
 
-import org.springframework.hateoas.ResourceSupport;
+import library.common.model.hateoas.ILibraryEntity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import static library.common.utils.Constants.AUTHOR;
+import static library.common.utils.Constants.BOOK;
 
 /**
  * Created by tsodring on 9/25/17.
@@ -14,7 +18,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "authors_table")
-public class Author {
+@XmlRootElement(name = AUTHOR, namespace="http://abi.hioa.no/types/library")
+public class Author implements ILibraryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,15 +58,21 @@ public class Author {
     public void setAuthorLastName(String authorLastName) {
         this.authorLastName = authorLastName;
     }
-/*
-    public Set<Book> getBooks() {
-        return books;
+
+    @Override
+    public String getBaseTypeName() {
+        return AUTHOR;
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-*/
+    /*
+        public Set<Book> getBooks() {
+            return books;
+        }
+
+        public void setBooks(Set<Book> books) {
+            this.books = books;
+        }
+    */
     @Override
     public String toString() {
         return "Author{" +
