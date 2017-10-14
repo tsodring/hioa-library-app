@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static library.common.utils.Constants.AUTHOR;
-import static library.common.utils.Constants.BOOK;
 
 /**
  * Created by tsodring on 9/25/17.
@@ -74,6 +73,8 @@ public class Author implements ILibraryEntity {
         this.authorLastName = authorLastName;
     }
 
+    @XmlTransient
+    @JsonIgnore
     @Override
     public String getBaseTypeName() {
         return AUTHOR;
