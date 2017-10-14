@@ -18,6 +18,7 @@ import org.jvnet.ws.wadl.Resource;
 import org.jvnet.ws.wadl.Resources;
 import org.jvnet.ws.wadl.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,9 @@ public class WADLController {
     private RequestMappingHandlerMapping handlerMapping;
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @Value("${hateoas.publicAddress}")
+    private String publicUrlPath;
+
 
     @RequestMapping(method=RequestMethod.GET, produces={"application/xml"} )
     public @ResponseBody Application generateWadl(HttpServletRequest request) {
@@ -61,7 +65,7 @@ public class WADLController {
         doc.setTitle("Spring REST Service WADL");
         result.getDoc().add(doc);
         Resources wadResources = new Resources();
-        wadResources.setBase(getBaseUrl(request));
+        wadResources.setBase(publicUrlPath);
         Map<RequestMappingInfo, HandlerMethod> handletMethods = handlerMapping.getHandlerMethods();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handletMethods.entrySet()) {
 
