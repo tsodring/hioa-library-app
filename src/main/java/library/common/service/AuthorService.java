@@ -42,7 +42,7 @@ public class AuthorService implements IAuthorService {
             throw new Exception("No author exists with Id " + id);
         }
         originalAuthor.setAuthorFirstName(author.getAuthorFirstName());
-        originalAuthor.setAuthorLastName(author.getAuthorFirstName());
+        originalAuthor.setAuthorLastName(author.getAuthorLastName());
         return originalAuthor;
     }
     
